@@ -26,12 +26,12 @@ import { Form } from "@/components/ui/form"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { Link } from "react-router-dom"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import axios from 'axios';
 
 const formSchema = z.object({
-  email: z.string(),
-  password: z.string()
+    email: z.string(),
+    password: z.string()
 });
 
 
@@ -41,28 +41,64 @@ const Login = () => {
 
     })
 
-    const [remember, setRemember]= useState(false)
+    const [remember, setRemember] = useState(false)
+
+
+    const credentialRequested = useRef(false);
+
+    useEffect(() => {
+        if (
+            credentialRequested.current ||
+            !("credentials" in navigator)
+        ) {
+            return;
+        }
+
+        credentialRequested.current = true;
+
+        navigator.credentials
+            .get({
+                password: true,
+                mediation: "optional",
+            } as PasswordCredentialRequestOptions)
+            .then((cred) => {
+                if (cred && cred instanceof PasswordCredential) {
+                    form.setValue("email", cred.id);
+                    form.setValue("password", cred.password || "");
+                }
+            })
+            .catch(console.error);
+    }, [form]);
+
+
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             console.log(values);
-            const url= 'https://cover-letter-builder.onrender.com/auth/login'
+            const url = 'https://cover-letter-builder.onrender.com/auth/login'
             const response = await axios.post(url, values, {
-                headers : {
+                headers: {
                     "Content-Type": "application/json"
                 }
             })
             console.log(response.data)
             localStorage.setItem("token", response.data.token)
             toast.success(response.data.message);
-       
-        } catch (error) {
+
+            if (remember && 'credentials' in navigator) {
+                const cred = new PasswordCredential({
+                    id: values.email,
+                    password: values.password,
+                    name: values.email,
+                });
+                navigator.credentials.store(cred);
+
+            }
+
+        } catch (error: any) {
             console.error("Form submission error", error);
-            toast.error("Failed to submit the form. Please try again.");
+            toast.error(error.response.data.message);
         }
     }
-
-
-
 
 
     return (
@@ -71,9 +107,9 @@ const Login = () => {
             <div className='absolute inset-0 bg-black/60 w-full'></div>
             <div className='relative z-10 w-full h-full bg-white max-w-[400px] mx-auto p-7 rounded'>
                 <h3 className="text-black text-2xl text-center">Log In</h3>
-                
+
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-3xl mx-auto py-10">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-3xl mx-auto">
                         <Field>
                             <FieldLabel htmlFor="email">Email</FieldLabel>
                             <Input
@@ -96,14 +132,16 @@ const Login = () => {
                             <FieldError>{form.formState.errors.password?.message}</FieldError>
                         </Field>
                         <Button type="submit" className="w-full cursor-pointer">Login</Button>
+
                         <div className="flex items-center gap-3">
-                            <Checkbox id="remember_password"/>
+                            <Checkbox id="remember_password" checked={remember} onCheckedChange={(value) => setRemember(!!value)} />
                             <Label htmlFor="remember_password" className="text-[#333]">Remember your password</Label>
                         </div>
-                        <small className="text-black">Don't have an account? 
+
+                        <small className="text-black">Don't have an account?
                             {" "}<Link to="/auth/signup" className="text-blue-700">create account</Link>
                         </small>
-                        
+
                     </form>
                 </Form>
             </div>

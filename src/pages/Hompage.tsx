@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom' 
 import { ChevronRight, FileClock, ShieldCheck, Zap } from 'lucide-react';
 import CardComponent from '@/components/CardComponent';
-import TestimonialCard from '@/components/testimonialCard';
+import TestimonialCard from '../components/TestimonialCard';
 
 
 const Hompage = () => {
