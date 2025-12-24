@@ -25,9 +25,10 @@ import {
 import { Form } from "@/components/ui/form"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useEffect, useRef, useState } from "react"
 import axios from 'axios';
+import { PasswordInput } from "@/components/ui/password-input"
 
 const formSchema = z.object({
     email: z.string(),
@@ -42,9 +43,9 @@ const Login = () => {
     })
 
     const [remember, setRemember] = useState(false)
-
-
+    const [password, setPassword] = useState("")
     const credentialRequested = useRef(false);
+    const Navigate = useNavigate()
 
     useEffect(() => {
         if (
@@ -93,7 +94,7 @@ const Login = () => {
                 navigator.credentials.store(cred);
 
             }
-
+            Navigate("/upload", { replace: true })
         } catch (error: any) {
             console.error("Form submission error", error);
             toast.error(error.response.data.message);
@@ -106,10 +107,10 @@ const Login = () => {
             {/* overlay */}
             <div className='absolute inset-0 bg-black/60 w-full'></div>
             <div className='relative z-10 w-full h-full bg-white max-w-[400px] mx-auto p-7 rounded'>
-                <h3 className="text-black text-2xl text-center">Log In</h3>
+                <h3 className="text-black text-2xl text-center pb-2">Log In</h3>
 
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 max-w-3xl mx-auto">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 max-w-3xl mx-auto">
                         <Field>
                             <FieldLabel htmlFor="email">Email</FieldLabel>
                             <Input
@@ -123,10 +124,14 @@ const Login = () => {
                         </Field>
                         <Field>
                             <FieldLabel htmlFor="password">Password</FieldLabel>
-                            <Input
+                            <PasswordInput
                                 id="password"
                                 placeholder="Enter your password"
                                 {...form.register("password")}
+
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                autoComplete="password"
                             />
                             <FieldDescription>Enter your password.</FieldDescription>
                             <FieldError>{form.formState.errors.password?.message}</FieldError>

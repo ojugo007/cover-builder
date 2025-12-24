@@ -29,7 +29,7 @@ const router = createBrowserRouter([
     element: <Profile/>,
   },
   {
-    path:'/generate-coverletter',
+    path:'/upload',
     element: <Generator/>,
   },
 ])
