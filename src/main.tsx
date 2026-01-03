@@ -9,6 +9,8 @@ import Profile from './pages/Profile.tsx'
 import Generator from './pages/Generator.tsx'
 import NotFound from './pages/NotFound.tsx'
 import { Toaster } from "@/components/ui/sonner"
+import Unauthorized from './pages/Unauthorized.tsx'
+import AuthRoutes from "@/routes/AuthRoutes";
 
 const router = createBrowserRouter([
   {
@@ -26,11 +28,24 @@ const router = createBrowserRouter([
   },
   {
     path:'/profile',
-    element: <Profile/>,
+    element:(
+      <AuthRoutes>
+        <Profile/>
+      </AuthRoutes>
+    ) 
+    
   },
   {
     path:'/upload',
-    element: <Generator/>,
+    element:( 
+      <AuthRoutes>
+        <Generator/>
+      </AuthRoutes>
+    ),
+  },
+  {
+    path:'/access-denied',
+    element: <Unauthorized/>,
   },
 ])
 createRoot(document.getElementById('root')!).render(

@@ -29,8 +29,10 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form } from "@/components/ui/form"
 import { TagsInput } from "@/components/ui/tags-input"
-// import { useState } from "react"
-
+import { useAuth } from "@/context/AuthContext";
+import axios from "axios"
+import { useEffect, useState } from "react"
+import {useNavigate} from "react-router-dom"
 
 
 const formSchema = z.object({
@@ -45,31 +47,114 @@ const formSchema = z.object({
     work_exp: z.string().optional(),
     bio: z.string()
 });
-// https://cover-letter-builder.onrender.com/user/update-profile
+
+// clean up empty fields 
+const removeEmptyFields = <T extends Record<string, any>>(obj: T) => {
+    return Object.fromEntries(
+        Object.entries(obj).filter(
+            ([_, value]) =>
+                value !== "" &&
+                value !== null &&
+                value !== undefined
+        )
+    );
+};
+
+
+interface UserProfile {
+    phone: string,
+    address: string,
+    linkedin_url: string,
+    personal_url: string,
+    skills: string[],
+    years_of_exp: number,
+    work_exp: string,
+    bio: string,
+    profileCompleted: boolean
+}
+
 const Profile = () => {
-    // const [skills, setSkills] = useState<string[]>([])
+
+    const [userData, setUserData] = useState<UserProfile | null>(null)
+    const navigate = useNavigate()
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            "skills": [""]
+            address: "",
+            linkedin_url: "",
+            personal_url: "",
+            years_of_exp: "",
+            work_exp: "",
+            bio: "",
+            phone: "",
+            skills: []
         },
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
-            const data = {...values, years_of_exp:Number(values.years_of_exp)}
-            console.log(data);
-            toast(
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-                </pre>
-            );
-        } catch (error) {
+            const cleanedData = removeEmptyFields({
+                ...values,
+                years_of_exp: values.years_of_exp
+                    ? Number(values.years_of_exp)
+                    : undefined,
+            });
+
+            const token: string = localStorage.getItem('token')!
+
+            const response = await axios.patch('https://cover-letter-builder.onrender.com/user/update-profile', cleanedData, {
+                headers: {
+                    "Content-Type": 'application/json',
+                    "Authorization": `bearer ${token}`
+                }
+            })
+            
+            if (response.status === 200) {
+                toast.success("Profile successfully updated");
+                navigate("/upload")
+            }
+
+        } catch (error: any) {
             console.error("Form submission error", error);
-            toast.error("Failed to submit the form. Please try again.");
+            toast.error(error.response.data.message);
         }
     }
 
+    async function getUser() {
+        try {
+            const token = localStorage.getItem('token')
+            const res = await axios.get('https://cover-letter-builder.onrender.com/user/me', {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `bearer ${token}`
+                }
+            })
+            setUserData(res.data)
+        } catch (error: any) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        getUser()
+    }, [])
+
+    useEffect(() => {
+        if (userData) {
+            form.reset({
+                address: userData.address ?? "",
+                linkedin_url: userData.linkedin_url ?? "",
+                personal_url: userData.personal_url ?? "",
+                years_of_exp: String(userData.years_of_exp) ?? "",
+                work_exp: userData.work_exp ?? "",
+                bio: userData.bio ?? "",
+                phone: userData.phone ?? "",
+                skills: userData.skills ?? [],
+            });
+        }
+    }, [userData, form]);
+
+    const { user } = useAuth()
     return (
         <>
             <div className='max-w-[60%] mx-auto py-5'>
@@ -82,11 +167,11 @@ const Profile = () => {
                         <CardContent className='flex items-center justify-between '>
                             <div>
                                 <h4 className='text-[16px]'>Full Name</h4>
-                                <span className='capitalize'>john doe </span>
+                                <span className='capitalize'>{user.fullname}</span>
                             </div>
                             <div>
                                 <h4 className='text-[16px]'>Email</h4>
-                                <span>johndoe@example.com </span>
+                                <span>{user.email} </span>
                             </div>
                         </CardContent>
                     </Card>
