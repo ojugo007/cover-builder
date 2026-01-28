@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom"
 import { useAuth } from "@/context/AuthContext"
 import { useEffect, useRef } from "react"
-import { toast } from "sonner" // or your preferred toast library
+import { toast } from "sonner" 
 import { CircleAlert } from "lucide-react"
 
 const ProfileCompleteRoute = ({ children }: { children: React.ReactNode }) => {

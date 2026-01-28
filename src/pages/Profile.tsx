@@ -33,6 +33,7 @@ import { useAuth } from "@/context/AuthContext";
 import axios from "axios"
 import { useEffect, useState } from "react"
 import {useNavigate} from "react-router-dom"
+import { CircleCheck, CircleX } from "lucide-react"
 
 
 const formSchema = z.object({
@@ -76,6 +77,7 @@ interface UserProfile {
 const Profile = () => {
 
     const [userData, setUserData] = useState<UserProfile | null>(null)
+    const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -93,6 +95,7 @@ const Profile = () => {
     })
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
+        setIsLoading(true)
         try {
             const cleanedData = removeEmptyFields({
                 ...values,
@@ -111,13 +114,37 @@ const Profile = () => {
             })
             
             if (response.status === 200) {
-                toast.success("Profile successfully updated");
+               
+             toast(
+                <div className="flex items-center gap-2">
+                    <CircleCheck size={18} className="text-black bg-green-300 rounded-full" />
+                    <span>Profile Successfully Updated</span>
+                </div>
+                , {
+                    unstyled: true,
+                    className: 'bg-green-200 text-black p-2 rounded',
+                    duration: 5000,
+                }
+            )
+                
                 navigate("/upload")
             }
 
         } catch (error: any) {
-            console.error("Form submission error", error);
-            toast.error(error.response.data.message);
+            console.error("Form submission error", error);            
+            toast(
+                <div className="flex items-center gap-2">
+                    <CircleX size={18} className="text-black bg-red-300 rounded-full" />
+                    <span>{error.response.data.message}</span>
+                </div>
+                , {
+                    unstyled: true,
+                    className: 'bg-red-200 text-black p-2 rounded',
+                    duration: 5000,
+                }
+            )
+        }finally{
+            setIsLoading(false)
         }
     }
 
@@ -157,21 +184,21 @@ const Profile = () => {
     const { user } = useAuth()
     return (
         <>
-            <div className='max-w-[60%] mx-auto py-5'>
+            <div className=' max-w-full px-4 md:px-0 md:max-w-[60%] mx-auto py-5'>
                 <h2 className='text-2xl pb-8'>Profile</h2>
                 <section>
-                    <Card className='bg-black border border-slate-700 text-white'>
+                    <Card className='bg-white border border-slate-700 text-black'>
                         <CardHeader>
                             <CardTitle><h2>Personal info</h2></CardTitle>
                         </CardHeader>
                         <CardContent className='flex items-center justify-between '>
                             <div>
                                 <h4 className='text-[16px]'>Full Name</h4>
-                                <span className='capitalize'>{user.fullname}</span>
+                                <span className='capitalize'>{user?.fullname}</span>
                             </div>
                             <div>
                                 <h4 className='text-[16px]'>Email</h4>
-                                <span>{user.email} </span>
+                                <span>{user?.email} </span>
                             </div>
                         </CardContent>
                     </Card>
@@ -305,7 +332,7 @@ const Profile = () => {
                                 </CardContent>
 
                             </Card>
-                            <Button variant='outline' className='cursor-pointer border-2 border-white bg-black' type="submit">Update Profile</Button>
+                            <Button variant='outline' className='cursor-pointer border-2 border-white bg-black' type="submit">{isLoading? (<img src="/loader.gif" width={30} />):(<p>Update Profile</p>)}</Button>
                         </form>
                     </Form>
 

@@ -4,6 +4,8 @@ import { jwtDecode } from "jwt-decode"
 
 type JwtPayload = {
   exp: number
+  fullname : string
+  email : string
   profileCompleted: boolean
 }
 
