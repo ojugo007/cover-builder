@@ -27,6 +27,7 @@ import { Link, useNavigate } from "react-router-dom"
 import axios from 'axios';
 import { PasswordInput } from "@/components/ui/password-input"
 import { useState } from "react"
+import { CircleCheck, CircleX } from "lucide-react"
 
 const formSchema = z.object({
     fullname: z.string()
@@ -45,7 +46,8 @@ const formSchema = z.object({
 });
 
 const Signup = () => {
-const form = useForm<z.infer<typeof formSchema>>({
+    const [isLoading, setIsLoading] = useState(false)
+    const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
 
     })
@@ -55,7 +57,7 @@ const form = useForm<z.infer<typeof formSchema>>({
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
-            console.log(values);
+            setIsLoading(true)
             const url = 'https://cover-letter-builder.onrender.com/auth/signup'
             const response = await axios.post(url, values, {
                 headers: {
@@ -64,18 +66,41 @@ const form = useForm<z.infer<typeof formSchema>>({
             })
             console.log(response)
             localStorage.setItem("token", response.data.token)
-            toast.success(response.data.message);
+            toast(
+                <div className="flex items-center gap-2">
+                    <CircleCheck size={18} className="text-black bg-green-300 rounded-full" />
+                    <span>{response.data.message}</span>
+                </div>
+                , {
+                    unstyled: true,
+                    className: 'bg-green-200 text-black p-2 rounded',
+                    duration: 5000,
+                }
+            )
 
-            Navigate("/profile", {replace:true})
+
+            Navigate("/complete-profile", {replace:true})
         } catch (error: any) {
-            console.error("Form submission error", error);
-            toast.error(error.response.data.message);
+            console.error("Form submission error", error);            
+            toast(
+                <div className="flex items-center gap-2">
+                    <CircleX size={18} className="text-black bg-red-300 rounded-full" />
+                    <span>{error.response.data.message}</span>
+                </div>
+                , {
+                    unstyled: true,
+                    className: 'bg-red-200 text-black p-2 rounded',
+                    duration: 5000,
+                }
+            )
+        } finally{
+            setIsLoading(false)
         }
     }
 
 
     return (
-        <div className='max-w-full min-h-screen relative bg-[url(/grid.png)] bg-cover bg-center bg-no-repeat flex items-center justify-center'>
+        <div className='max-w-full min-h-screen relative bg-[url(/grid.png)] bg-cover bg-center bg-no-repeat flex items-center justify-center px-4'>
             {/* overlay */}
             <div className='absolute inset-0 bg-black/60 w-full'></div>
             <div className='relative z-10 w-full h-full bg-white max-w-[400px] mx-auto p-7 rounded'>
@@ -118,7 +143,7 @@ const form = useForm<z.infer<typeof formSchema>>({
                             <FieldDescription>Enter your password.</FieldDescription>
                             <FieldError>{form.formState.errors.password?.message}</FieldError>
                         </Field>
-                        <Button type="submit" className="w-full cursor-pointer">Sign up</Button>
+                        <Button type="submit" className="w-full cursor-pointer">{isLoading?(<img src="/loader.gif" width={30}/> ):(<p>Sign up</p>)}</Button>
 
                         <small className="text-black">Already have an account?
                             {" "}<Link to="/auth/login" className="text-blue-700">sign in</Link>

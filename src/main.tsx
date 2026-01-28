@@ -11,6 +11,9 @@ import NotFound from './pages/NotFound.tsx'
 import { Toaster } from "@/components/ui/sonner"
 import Unauthorized from './pages/Unauthorized.tsx'
 import AuthRoutes from "@/routes/AuthRoutes";
+import { AuthProvider } from './context/AuthContext.tsx'
+// import App from './App.tsx'
+import ProfileCompleteRoute from './routes/ProfileCompleteRoute.tsx'
 
 const router = createBrowserRouter([
   {
@@ -27,7 +30,7 @@ const router = createBrowserRouter([
     element: <Signup/>,
   },
   {
-    path:'/profile',
+    path:'/complete-profile',
     element:(
       <AuthRoutes>
         <Profile/>
@@ -38,9 +41,9 @@ const router = createBrowserRouter([
   {
     path:'/upload',
     element:( 
-      <AuthRoutes>
+      <ProfileCompleteRoute>
         <Generator/>
-      </AuthRoutes>
+      </ProfileCompleteRoute>
     ),
   },
   {
@@ -50,7 +53,9 @@ const router = createBrowserRouter([
 ])
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Toaster/>
-    <RouterProvider router={router}/>
-  </StrictMode>,
+    <AuthProvider>
+      <Toaster/>
+      <RouterProvider router={router}/>
+    </AuthProvider>
+  </StrictMode>
 )

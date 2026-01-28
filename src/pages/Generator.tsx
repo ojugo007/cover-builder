@@ -16,10 +16,13 @@ import {
 import {
   Button
 } from "@/components/ui/button"
-import { useState } from "react"
+import {useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Form } from "@/components/ui/form"
 import { cn } from "@/lib/utils"
+ import { CloudUpload , Sparkles} from 'lucide-react';
+import CoverLetterEditor from "@/components/CoverLetterEditor"
+import axios from "axios"
 
 
 const formSchema = z.object({
@@ -32,38 +35,58 @@ const formSchema = z.object({
 });
 
 const Generator = () => {
-  // https://cover-letter-builder.onrender.com/upload
-
   const [isDragging, setIsDragging] = useState(false);
+  const [isLoading, setIsLoading]= useState(false)
 
+  const [coverLetter, setCoverLetter] = useState("")
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  // to check if a file is selected
+  const { watch } = form;
+  const selectedFile = watch("file");
+
+  const onSubmit = async(values: z.infer<typeof formSchema>) => {
     const formData = new FormData();
     formData.append("file", values.file);
+    const token = localStorage.getItem('token')
 
     console.log(values.file);
+    try{
+      setIsLoading(true)
+      const response = await axios.post("https://cover-letter-builder.onrender.com/upload", formData, {
+        headers : {
+          "Authorization": `bearer ${token}`
+        }
+      })
+      // console.log(response.data.coverLetter)
 
-    // axios.post("/upload", formData)
+      setCoverLetter(response.data.coverLetter)
+    }catch(error){
+      console.log(error)
+    }finally{
+      setIsLoading(false)
+    }
+ 
   };
 
-
   return (
-    <div>
-      <aside>
+    <div className="w-full px-4  sm:px-6 lg:px-8 py-6 md:py-8">
+    <div className="flex flex-col md:flex-row gap-5 items-start p-0 sm:p-8 w-full">
+      <aside className="w-full md:w-1/2 lg:w-5/12">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="max-w-xl mx-auto py-10 space-y-6"
+            className="w-full space-y-6"
           >
             <Controller
               name="file"
               control={form.control}
               render={({ field }) => (
                 <Field>
-                  <FieldLabel>Upload screenshot</FieldLabel>
+                  <FieldLabel>Upload Job Description Image</FieldLabel>
 
                   <div
                     onDragOver={(e) => {
@@ -82,12 +105,15 @@ const Generator = () => {
                       document.getElementById("image-input")?.click()
                     }
                     className={cn(
-                      "flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-10 cursor-pointer transition",
+                      "flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-10 cursor-pointer transition ",
                       isDragging
                         ? "border-primary bg-primary/10"
                         : "border-muted-foreground/40"
                     )}
                   >
+                    <div className="bg-slate-700 p-2 rounded-full hover:bg-slate-800">
+                    <CloudUpload size={35} />
+                    </div>
                     <p className="text-sm text-muted-foreground">
                       Drag & drop an image here, or click to select
                     </p>
@@ -116,16 +142,15 @@ const Generator = () => {
                 </Field>
               )}
             />
-
-            <Button type="submit">Upload Screenshot</Button>
+            {selectedFile && (<Button type="submit" variant='outline' className='cursor-pointer border-2 border-white bg-black w-[200px]'>{isLoading?(<img src="/loader.gif" width={30}/>):(<>Generate Cover-letter <Sparkles/></>  )}</Button>)}
           </form>
         </Form>
-
       </aside>
-      <main>
-
+      <main className="w-full md:flex-1 border rounded-xl border-muted-foreground/40 min-w-0 " >
+        <CoverLetterEditor coverLetter ={coverLetter}/>
       </main>
 
+    </div>
     </div>
   )
 }

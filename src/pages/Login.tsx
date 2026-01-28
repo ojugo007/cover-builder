@@ -29,6 +29,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useEffect, useRef, useState } from "react"
 import axios from 'axios';
 import { PasswordInput } from "@/components/ui/password-input"
+import { CircleCheck, CircleX } from "lucide-react"
 
 const formSchema = z.object({
     email: z.string(),
@@ -37,6 +38,8 @@ const formSchema = z.object({
 
 
 const Login = () => {
+    const [isLoading, setIsLoading] = useState(false);
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
 
@@ -74,16 +77,26 @@ const Login = () => {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
-            console.log(values);
+            setIsLoading(true)
             const url = 'https://cover-letter-builder.onrender.com/auth/login'
             const response = await axios.post(url, values, {
                 headers: {
                     "Content-Type": "application/json"
                 }
             })
-            console.log(response.data)
+            // console.log(response.data)
             localStorage.setItem("token", response.data.token)
-            toast.success(response.data.message);
+            toast(
+                <div className="flex items-center gap-2">
+                    <CircleCheck size={18} className="text-black bg-green-300 rounded-full" />
+                    <span>{response.data.message}</span>
+                </div>
+                , {
+                    unstyled: true,
+                    className: 'bg-green-200 text-black p-2 rounded',
+                    duration: 5000,
+                }
+            )
 
             if (remember && 'credentials' in navigator) {
                 const cred = new PasswordCredential({
@@ -97,13 +110,25 @@ const Login = () => {
             Navigate("/upload", { replace: true })
         } catch (error: any) {
             console.error("Form submission error", error);
-            toast.error(error.response.data.message);
+            toast(
+                <div className="flex items-center gap-2">
+                    <CircleX size={18} className="text-black bg-red-300 rounded-full" />
+                    <span>{error.response.data.message}</span>
+                </div>
+                , {
+                    unstyled: true,
+                    className: 'bg-red-200 text-black p-2 rounded',
+                    duration: 5000,
+                }
+            )
+        } finally {
+            setIsLoading(false)
         }
     }
 
 
     return (
-        <div className='max-w-full min-h-screen relative bg-[url(/grid.png)] bg-cover bg-center bg-no-repeat flex items-center justify-center'>
+        <div className='max-w-full min-h-screen relative bg-[url(/grid.png)] bg-cover bg-center bg-no-repeat flex items-center justify-center px-4'>
             {/* overlay */}
             <div className='absolute inset-0 bg-black/60 w-full'></div>
             <div className='relative z-10 w-full h-full bg-white max-w-[400px] mx-auto p-7 rounded'>
@@ -136,7 +161,7 @@ const Login = () => {
                             <FieldDescription>Enter your password.</FieldDescription>
                             <FieldError>{form.formState.errors.password?.message}</FieldError>
                         </Field>
-                        <Button type="submit" className="w-full cursor-pointer">Login</Button>
+                        <Button type="submit" className="w-full cursor-pointer">{isLoading ? (<img src="/loader.gif" width={30} />) : (<p>Login</p>)}</Button>
 
                         <div className="flex items-center gap-3">
                             <Checkbox id="remember_password" checked={remember} onCheckedChange={(value) => setRemember(!!value)} />

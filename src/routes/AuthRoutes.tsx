@@ -1,44 +1,14 @@
-import React from 'react'
-import { jwtDecode } from "jwt-decode";
 import { Navigate } from "react-router-dom"
-import { AuthProvider } from "@/context/AuthContext";
+import { useAuth } from "@/context/AuthContext"
 
-type JwtPayload = {
-    exp?: number;
-};
+const AuthRoutes = ({ children }: { children: React.ReactNode }) => {
+  const { isAuthenticated } = useAuth()
 
-interface AuthRoutesProps {
-    children: React.ReactNode;
-}
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />
+  }
 
-const isTokenExpired = (token: string) :boolean => {
-    try {
-        const decode = jwtDecode<JwtPayload>(token)
-        if(!decode.exp) return true
-
-        const currentTime = Math.floor(Date.now() / 1000)
-        
-        return decode.exp! < currentTime;
-
-    } catch (error) {
-        return true
-    }
-}
-
-const AuthRoutes = ({children}: AuthRoutesProps) => {
-    const token = localStorage.getItem('token')
-
-    if (!token || isTokenExpired(token)) {
-        localStorage.removeItem("token")
-        return <Navigate to="/access-denied" replace/>
-    }
-
-    const decoded = jwtDecode<JwtPayload>(token);
-    return (
-        <AuthProvider user={decoded}>
-            {children}
-        </AuthProvider>
-    )
+  return children
 }
 
 export default AuthRoutes

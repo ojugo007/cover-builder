@@ -1,3 +1,4 @@
+@reference "tailwindcss";
 body {
   @apply bg-black text-gray-300;
   margin: 0;
