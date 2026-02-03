@@ -37,7 +37,7 @@ const MobileNavbar = () => {
         </div>
 
         {/* Navigation Links */}
-        <div className={ `w-full h-screen bg-black flex flex-col items-center gap-4 absolute top-full right-0 z-15 pt-8 transition-transform duration-300 ${showMenu ? 'translate-x-0' : 'translate-x-full'
+        <div className={ `fixed inset-y-0 right-0 w-full h-screen bg-black flex flex-col items-center gap-4 pt-20 z-50 transition-transform duration-300 ${showMenu ? 'translate-x-0' : 'translate-x-full'
         }`}>
           <Link to="/" className="text-white hover:text-slate-400" onClick={() => setShowMenu(false)}>
             Home

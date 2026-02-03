@@ -44,6 +44,11 @@
 
 }
 
+html {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 body {
   /* background-color: #000000;
   color: #d1d5db; */
@@ -53,9 +58,13 @@ body {
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
   overflow-x: hidden;
+  width: 100%;
+  position: relative;
 }
 
-
+* {
+  box-sizing: border-box;
+}
 
 h1,h2,h3,h4,h5,h6, .heading_font{
   font-family: "Orbitron", sans-serif;
