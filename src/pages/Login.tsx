@@ -107,7 +107,8 @@ const Login = () => {
                 navigator.credentials.store(cred);
 
             }
-            Navigate("/upload", { replace: true })
+            window.location.href= "/upload"
+            // Navigate("/upload", { replace: true })
         } catch (error: any) {
             console.error("Form submission error", error);
             toast(
@@ -128,14 +129,14 @@ const Login = () => {
 
 
     return (
-        <div className='max-w-full min-h-screen relative bg-[url(/grid.png)] bg-cover bg-center bg-no-repeat flex items-center justify-center px-4'>
+        <div className='w-full min-h-screen relative bg-[url(/grid.png)] bg-cover bg-center bg-no-repeat flex items-center justify-center px-4 py-8'>
             {/* overlay */}
             <div className='absolute inset-0 bg-black/60 w-full'></div>
-            <div className='relative z-10 w-full h-full bg-white max-w-[400px] mx-auto p-7 rounded'>
+            <div className='relative z-10 w-full bg-white max-w-[400px] mx-auto p-7 rounded'>
                 <h3 className="text-black text-2xl text-center pb-2">Log In</h3>
 
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 max-w-3xl mx-auto">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 mx-auto text-black">
                         <Field>
                             <FieldLabel htmlFor="email">Email</FieldLabel>
                             <Input
@@ -168,7 +169,7 @@ const Login = () => {
                             <Label htmlFor="remember_password" className="text-[#333]">Remember your password</Label>
                         </div>
 
-                        <small className="text-black">Don't have an account?
+                        <small className="text-black block text-center">Don't have an account?
                             {" "}<Link to="/auth/signup" className="text-blue-700">create account</Link>
                         </small>
 
