@@ -7,7 +7,7 @@ import { useState } from "react"
 
 
 const MobileNavbar = () => {
-  const { isAuthenticated, isProfileComplete, user } = useAuth();
+  const { isAuthenticated, isProfileComplete } = useAuth();
   const [showMenu, setShowMenu] = useState(false)
   const navigate = useNavigate()
 
