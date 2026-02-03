@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 
 
 const Navbar = () => {
-  const { isAuthenticated, isProfileComplete, user } = useAuth()
+  const { isAuthenticated, isProfileComplete } = useAuth()
   const navigate = useNavigate()
 
   const handleLogout = () => {
