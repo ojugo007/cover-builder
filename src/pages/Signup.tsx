@@ -78,7 +78,6 @@ const Signup = () => {
                 }
             )
 
-
             Navigate("/complete-profile", {replace:true})
         } catch (error: any) {
             console.error("Form submission error", error);            
