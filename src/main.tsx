@@ -13,48 +13,56 @@ import Unauthorized from './pages/Unauthorized.tsx'
 import AuthRoutes from "@/routes/AuthRoutes";
 import { AuthProvider } from './context/AuthContext.tsx'
 import ProfileCompleteRoute from './routes/ProfileCompleteRoute.tsx'
+import Layout from './components/Layout.tsx'
 
 const router = createBrowserRouter([
   {
-    path:'/',
-    element: <Hompage/>,
-    errorElement: <NotFound/>
-  },
-  {
-    path:'/auth/login',
-    element: <Login/>,
-  },
-  {
-    path:'/auth/Signup',
-    element: <Signup/>,
-  },
-  {
-    path:'/complete-profile',
-    element:(
-      <AuthRoutes>
-        <Profile/>
-      </AuthRoutes>
-    ) 
-    
-  },
-  {
-    path:'/upload',
-    element:( 
-      <ProfileCompleteRoute>
-        <Generator/>
-      </ProfileCompleteRoute>
-    ),
-  },
-  {
-    path:'/access-denied',
-    element: <Unauthorized/>,
-  },
+    element: <Layout />,
+    errorElement: <NotFound />,
+    children: [
+
+
+      {
+        path: '/',
+        element: <Hompage />,
+      },
+      {
+        path: '/auth/login',
+        element: <Login />,
+      },
+      {
+        path: '/auth/Signup',
+        element: <Signup />,
+      },
+      {
+        path: '/complete-profile',
+        element: (
+          <AuthRoutes>
+            <Profile />
+          </AuthRoutes>
+        )
+
+      },
+      {
+        path: '/upload',
+        element: (
+          <ProfileCompleteRoute>
+            <Generator />
+          </ProfileCompleteRoute>
+        ),
+      },
+      {
+        path: '/access-denied',
+        element: <Unauthorized />,
+      },
+    ]
+  }
 ])
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
-      <Toaster/>
-      <RouterProvider router={router}/>
+      <Toaster />
+      <RouterProvider router={router} />
     </AuthProvider>
   </StrictMode>
 )

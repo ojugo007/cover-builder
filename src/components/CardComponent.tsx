@@ -12,7 +12,7 @@ const CardComponent = (prop: Prop) => {
         <>
             <Card>
                 <CardHeader>
-                    <CardDescription>{prop.icon}</CardDescription>
+                    <CardDescription className="text-slate-600 w-max bg-slate-200 rounded p-1">{prop.icon}</CardDescription>
                     <CardTitle className="heading_font text-[16px]">{prop.title}</CardTitle>
                 </CardHeader>
                 <CardContent>

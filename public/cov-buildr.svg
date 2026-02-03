@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 338.96 61.95">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill: #d4af37;
+      }
+
+      .cls-3 {
+        fill: #f2f2f2;
+        font-size: 28.9px;
+      }
+
+      .cls-3, .cls-4 {
+        font-family: Orbitron-ExtraBold, Orbitron;
+        font-variation-settings: 'wght' 800;
+        font-weight: 700;
+      }
+
+      .cls-5 {
+        letter-spacing: -.03em;
+      }
+
+      .cls-4 {
+        font-size: 30px;
+      }
+    </style>
+  </defs>
+  <path d="M8.02,0h159.58v61.95H8.67c-4.79,0-8.67-3.89-8.67-8.67V8.02C0,3.59,3.59,0,8.02,0Z"/>
+  <text class="cls-3" transform="translate(3.52 40.59) scale(1.26 1)"><tspan x="0" y="0">C</tspan><tspan class="cls-5" x="23.76" y="0">O</tspan><tspan x="46.7" y="0">VER</tspan></text>
+  <path class="cls-1" d="M167.62,0h162.43c4.92,0,8.91,3.99,8.91,8.91v41.93c0,6.13-4.98,11.11-11.11,11.11h-160.23V0h0Z"/>
+  <text class="cls-4" transform="translate(177.24 40.59) scale(1.04 1)"><tspan x="0" y="0">BUILDER</tspan></text>
+  <polygon class="cls-2" points="165.97 21.53 161.73 31.61 167.6 31.61 161.73 40.42 177.24 27.83 169.48 27.83 177.24 21.53 165.97 21.53"/>
+</svg>

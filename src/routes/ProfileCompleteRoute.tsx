@@ -32,7 +32,7 @@ const ProfileCompleteRoute = ({ children }: { children: React.ReactNode }) => {
   }, [isAuthenticated, isProfileComplete])
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />
+    return <Navigate to="/auth/login" replace />
   }
 
   if (!isProfileComplete) {

@@ -21,10 +21,10 @@ const Hompage = () => {
 
                 <div className='flex flex-row justify-center gap-10 py-10'>
                     <Button className='cursor-pointer bg-white text-black border-0 hover:text-white hover:bg-slate-700'>
-                        <Link to='/get-started' className='flex items-center justify-around'><span>Get Started</span> <ChevronRight size={16} strokeWidth={1} /></Link>
+                        <Link to='/auth/signup' className='flex items-center justify-around'><span>Get Started</span> <ChevronRight size={16} strokeWidth={1} /></Link>
                     </Button>
                     <Button variant='outline' className='cursor-pointer border-2 border-white bg-black'>
-                        <Link to='/free-trial'>Try It Free</Link>
+                        <Link to='/upload'>Try It Free</Link>
                     </Button>
                 </div>
             </div>
@@ -35,7 +35,7 @@ const Hompage = () => {
             <h2 className='text-center text-[24px] font-bold'>Why Choose Covr buildr?</h2>
             <p className='text-center text-[16px] py-2'>Get ahead of the competition with AI-powered cover letter generation</p>
 
-            <div className='px-[30px] py-[60px] md:px-[60px]  bg-white rounded grid grid-rows-1 md:grid-cols-3  gap-4  '>
+            <div className='px-[30px] py-[60px] md:px-[60px]  bg-slate-700 rounded grid grid-rows-1 md:grid-cols-3  gap-4  '>
                 <CardComponent 
                     icon={<Zap/>} 
                     title='AI-Powered Generation' 
@@ -79,7 +79,7 @@ const Hompage = () => {
             <h3 className='text-2xl mb-3'>Ready to Transform Your Career?</h3>
             <p className='mb-5'>Join thousands of professionals who've successfully landed their dream jobs with covr buildr</p>
             <Button className='cursor-pointer bg-white text-black border-0 hover:text-white hover:bg-slate-700'>
-                <Link to='/get-started' className='flex items-center justify-around'><span>Get Started</span> <ChevronRight size={16} strokeWidth={1} /></Link>
+                <Link to='/auth/signup' className='flex items-center justify-around'><span>Get Started</span> <ChevronRight size={16} strokeWidth={1} /></Link>
             </Button>
         </section>
         <footer>
