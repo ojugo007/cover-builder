@@ -4,6 +4,10 @@
 
 @import "tw-animate-css";
 
+/* @custom-variant dark (&:is(.dark *)); */
+
+/* @tailwind utilities; */
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -41,8 +45,9 @@
 }
 
 body {
-  background-color: #000000;
-  color: #d1d5db;
+  /* background-color: #000000;
+  color: #d1d5db; */
+  @apply bg-black text-gray-300;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -79,7 +84,7 @@ button {
 }
 
 
-:root {
+@theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -155,10 +160,12 @@ button {
 
 @layer base {
   * {
+    @apply border-border outline-ring/50;
     border-color: hsl(var(--color-border));
     outline-color: hsl(var(--color-ring) / 0.5);
   }
   body {
+    @apply bg-background text-foreground;
     background-color: hsl(var(--color-background));
     color: hsl(var(--color-foreground));
   }
