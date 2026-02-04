@@ -25,7 +25,7 @@ import {
 import { Form } from "@/components/ui/form"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useEffect, useRef, useState } from "react"
 import axios from 'axios';
 import { PasswordInput } from "@/components/ui/password-input"
@@ -48,7 +48,6 @@ const Login = () => {
     const [remember, setRemember] = useState(false)
     const [password, setPassword] = useState("")
     const credentialRequested = useRef(false);
-    const Navigate = useNavigate()
 
     useEffect(() => {
         if (
@@ -108,7 +107,7 @@ const Login = () => {
 
             }
             window.location.href= "/upload"
-            // Navigate("/upload", { replace: true })
+            
         } catch (error: any) {
             console.error("Form submission error", error);
             toast(

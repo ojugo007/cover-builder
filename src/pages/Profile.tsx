@@ -215,7 +215,7 @@ const Profile = () => {
                                         <Input
                                             id="phone"
                                             placeholder="+234 xxx-xxx-xxxx"
-                                            className="mb-5"
+                                            className="mb-5 bg-black text-white focus:bg-black border border-slate-700 focus-visible:border-slate-800 focus-visible:ring-2 focus-visible:ring-slate-700/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                                             {...form.register("phone")}
                                         />
                                     </Field>
@@ -224,7 +224,7 @@ const Profile = () => {
                                         <Input
                                             id="address"
                                             placeholder="City, Country"
-
+                                            className="bg-black text-white focus:bg-black border border-slate-700 focus-visible:border-slate-800 focus-visible:ring-2 focus-visible:ring-slate-700/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                                             {...form.register("address")}
                                         />
 
@@ -239,7 +239,7 @@ const Profile = () => {
                                                 <Input
                                                     id="linkedin_url"
                                                     placeholder="Enter Linkedin url"
-
+                                                    className="bg-black text-white focus:bg-black border border-slate-700 focus-visible:border-slate-800 focus-visible:ring-2 focus-visible:ring-slate-700/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                                                     {...form.register("linkedin_url")}
                                                 />
 
@@ -253,7 +253,7 @@ const Profile = () => {
                                                 <Input
                                                     id="personal_url"
                                                     placeholder="Portfolio url, Personal website or Github profile  behance profile, Google drive link , "
-
+                                                    className="bg-black text-white focus:bg-black border border-slate-700 focus-visible:border-slate-800 focus-visible:ring-2 focus-visible:ring-slate-700/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                                                     {...form.register("personal_url")}
                                                 />
                                                 <FieldDescription>Relevant professional link showcasing your work</FieldDescription>
@@ -278,7 +278,7 @@ const Profile = () => {
                                             id="years_of_exp"
                                             placeholder="how many years of experience"
                                             type='number'
-                                            className=""
+                                            className="bg-black text-white focus:bg-black border border-slate-700 focus-visible:border-slate-800 focus-visible:ring-2 focus-visible:ring-slate-700/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                                             {...form.register("years_of_exp")}
                                         />
 
@@ -296,7 +296,7 @@ const Profile = () => {
                                                     onValueChange={field.onChange}
                                                     placeholder="Add skills…"
                                                     maxItems={10}
-                                                    className="bg-black"
+                                                    className="bg-black text-white focus:bg-black border border-slate-700 focus-visible:border-slate-800 focus-visible:ring-2 focus-visible:ring-slate-700/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                                                 />
 
                                                 <FieldError>
@@ -311,7 +311,7 @@ const Profile = () => {
                                         <Textarea
                                             id="work_exp"
                                             placeholder="write briefly about your work experience"
-
+                                            className="bg-black text-white focus:bg-black border border-slate-700 focus-visible:border-slate-800 focus-visible:ring-2 focus-visible:ring-slate-700/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                                             {...form.register("work_exp")}
                                         />
 
@@ -322,7 +322,7 @@ const Profile = () => {
                                         <Textarea
                                             id="bio"
                                             placeholder="write briefly about your professional identity and core skills"
-
+                                            className="bg-black text-white focus:bg-black border border-slate-700 focus-visible:border-slate-800 focus-visible:ring-2 focus-visible:ring-slate-700/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                                             {...form.register("bio")}
                                         />
 

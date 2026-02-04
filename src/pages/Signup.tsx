@@ -23,7 +23,7 @@ import {
     Input
 } from "@/components/ui/input"
 import { Form } from "@/components/ui/form"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import axios from 'axios';
 import { PasswordInput } from "@/components/ui/password-input"
 import { useState } from "react"
@@ -52,7 +52,6 @@ const Signup = () => {
 
     })
 
-    const Navigate = useNavigate()
     const [password, setPassword]= useState("")
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -79,7 +78,6 @@ const Signup = () => {
             )
             window.location.href = "/complete-profile"
 
-            // Navigate("/complete-profile", {replace:true})
         } catch (error: any) {
             console.error("Form submission error", error);            
             toast(
