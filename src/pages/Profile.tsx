@@ -211,7 +211,7 @@ const Profile = () => {
                                 </CardHeader>
                                 <CardContent>
                                     <Field>
-                                        <FieldLabel htmlFor="phone">phone</FieldLabel>
+                                        <FieldLabel htmlFor="phone">Phone</FieldLabel>
                                         <Input
                                             id="phone"
                                             placeholder="+234 xxx-xxx-xxxx"
