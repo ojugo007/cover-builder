@@ -32,7 +32,7 @@ import { TagsInput } from "@/components/ui/tags-input"
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios"
 import { useEffect, useState } from "react"
-import {useNavigate} from "react-router-dom"
+// import {useNavigate} from "react-router-dom"
 import { CircleCheck, CircleX } from "lucide-react"
 
 
@@ -78,7 +78,7 @@ const Profile = () => {
 
     const [userData, setUserData] = useState<UserProfile | null>(null)
     const [isLoading, setIsLoading] = useState(false)
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -112,9 +112,11 @@ const Profile = () => {
                     "Authorization": `bearer ${token}`
                 }
             })
-            
-            if (response.status === 200) {
-               
+
+            if (response.data.token) {
+               localStorage.setItem('token', response.data.token)
+            }
+
              toast(
                 <div className="flex items-center gap-2">
                     <CircleCheck size={18} className="text-black bg-green-300 rounded-full" />
@@ -126,9 +128,7 @@ const Profile = () => {
                     duration: 5000,
                 }
             )
-                
-                navigate("/upload")
-            }
+            window.location.href = "/upload"
 
         } catch (error: any) {
             console.error("Form submission error", error);            

@@ -142,7 +142,7 @@ const Generator = () => {
                 </Field>
               )}
             />
-            {selectedFile && (<Button type="submit" variant='outline' className='cursor-pointer border-2 border-white bg-black w-[200px]'>{isLoading?(<img src="/loader.gif" width={30}/>):(<>Generate Cover-letter <Sparkles/></>  )}</Button>)}
+            {selectedFile && (<Button type="submit" variant='outline' className='cursor-pointer border border-white bg-black w-full'>{isLoading?(<img src="/loader.gif" width={30}/>):(<>Generate Cover-letter <Sparkles/></>  )}</Button>)}
           </form>
         </Form>
       </aside>

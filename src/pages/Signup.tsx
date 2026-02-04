@@ -49,16 +49,15 @@ const Signup = () => {
     const [isLoading, setIsLoading] = useState(false)
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-
     })
 
-    const [password, setPassword]= useState("")
+    const [password, setPassword] = useState("")
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
             setIsLoading(true)
             const url = 'https://cover-letter-builder.onrender.com/auth/signup'
-            const response = await axios.post(url, values, {
+            const response = await axios.post(url, values , {
                 headers: {
                     "Content-Type": "application/json"
                 }
@@ -79,7 +78,7 @@ const Signup = () => {
             window.location.href = "/complete-profile"
 
         } catch (error: any) {
-            console.error("Form submission error", error);            
+            console.error("Form submission error", error);
             toast(
                 <div className="flex items-center gap-2">
                     <CircleX size={18} className="text-black bg-red-300 rounded-full" />
@@ -91,7 +90,7 @@ const Signup = () => {
                     duration: 5000,
                 }
             )
-        } finally{
+        } finally {
             setIsLoading(false)
         }
     }
@@ -141,7 +140,7 @@ const Signup = () => {
                             <FieldDescription>Enter your password.</FieldDescription>
                             <FieldError>{form.formState.errors.password?.message}</FieldError>
                         </Field>
-                        <Button type="submit" className="w-full cursor-pointer">{isLoading?(<img src="/loader.gif" width={30}/> ):(<p>Sign up</p>)}</Button>
+                        <Button type="submit" className="w-full cursor-pointer">{isLoading ? (<img src="/loader.gif" width={30} />) : (<p>Sign up</p>)}</Button>
 
                         <small className="text-black block text-center">Already have an account?
                             {" "}<Link to="/auth/login" className="text-blue-700">sign in</Link>
@@ -152,7 +151,7 @@ const Signup = () => {
             </div>
 
         </div>
-  )
+    )
 }
 
 export default Signup
