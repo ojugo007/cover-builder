@@ -293,6 +293,7 @@ const Profile = () => {
 
                                                 <TagsInput
                                                     value={field.value}
+                                                    enterKeyHint="done"
                                                     onValueChange={field.onChange}
                                                     placeholder="Add skills…"
                                                     maxItems={10}
