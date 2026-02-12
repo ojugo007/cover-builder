@@ -15,6 +15,7 @@ export interface TagsInputProps
   maxItems?: number
   minItems?: number
   dir?: "ltr" | "rtl"
+  enterKeyHint?: "enter" | "done" | "go" | "next" | "previous" | "search" | "send"
 }
 
 export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
@@ -27,6 +28,7 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
       minItems = 0,
       className,
       dir = "ltr",
+      enterKeyHint = "done",
       ...props
     },
     ref
@@ -137,7 +139,8 @@ export const TagsInput = React.forwardRef<HTMLDivElement, TagsInputProps>(
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
           onPaste={handlePaste}
-          className="h-7 min-w-[120px] flex-1 border-none px-1 focus-visible:ring-0"
+          className="h-7 min-w-30 flex-1 border-none px-1 focus-visible:ring-0"
+          enterKeyHint={enterKeyHint}
         />
       </div>
     )

@@ -182,6 +182,10 @@ const Profile = () => {
     }, [userData, form]);
 
     const { user } = useAuth()
+    
+    // Common input class for consistent styling on white background
+    const inputClassName = "bg-white text-black border-2 border-slate-300 focus:bg-white focus:border-slate-800 focus-visible:ring-2 focus-visible:ring-slate-700/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background [-webkit-appearance:none]"
+    
     return (
         <>
             <div className=' max-w-full px-4 md:px-0 md:max-w-[60%] mx-auto py-5'>
@@ -205,7 +209,7 @@ const Profile = () => {
 
                     <Form  {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col space-y-5 mt-[50px]'>
-                            <Card className='bg-black border border-slate-700 text-white'>
+                            <Card className='bg-white border border-slate-700 text-black'>
                                 <CardHeader>
                                     <CardTitle><h2>Contact info</h2></CardTitle>
                                 </CardHeader>
@@ -215,7 +219,8 @@ const Profile = () => {
                                         <Input
                                             id="phone"
                                             placeholder="+234 xxx-xxx-xxxx"
-                                            className="mb-5 bg-black text-white focus:bg-black border border-slate-700 focus-visible:border-slate-800 focus-visible:ring-2 focus-visible:ring-slate-700/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                                            className={`mb-5 ${inputClassName}`}
+                                            style={{ backgroundColor: '#fff', color: '#000' }}
                                             {...form.register("phone")}
                                         />
                                     </Field>
@@ -224,7 +229,8 @@ const Profile = () => {
                                         <Input
                                             id="address"
                                             placeholder="City, Country"
-                                            className="bg-black text-white focus:bg-black border border-slate-700 focus-visible:border-slate-800 focus-visible:ring-2 focus-visible:ring-slate-700/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                                            className={inputClassName}
+                                            style={{ backgroundColor: '#fff', color: '#000' }}
                                             {...form.register("address")}
                                         />
 
@@ -239,7 +245,8 @@ const Profile = () => {
                                                 <Input
                                                     id="linkedin_url"
                                                     placeholder="Enter Linkedin url"
-                                                    className="bg-black text-white focus:bg-black border border-slate-700 focus-visible:border-slate-800 focus-visible:ring-2 focus-visible:ring-slate-700/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                                                    className={inputClassName}
+                                                    style={{ backgroundColor: '#fff', color: '#000' }}
                                                     {...form.register("linkedin_url")}
                                                 />
 
@@ -253,7 +260,8 @@ const Profile = () => {
                                                 <Input
                                                     id="personal_url"
                                                     placeholder="Portfolio url, Personal website or Github profile  behance profile, Google drive link , "
-                                                    className="bg-black text-white focus:bg-black border border-slate-700 focus-visible:border-slate-800 focus-visible:ring-2 focus-visible:ring-slate-700/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                                                    className={inputClassName}
+                                                    style={{ backgroundColor: '#fff', color: '#000' }}
                                                     {...form.register("personal_url")}
                                                 />
                                                 <FieldDescription>Relevant professional link showcasing your work</FieldDescription>
@@ -267,7 +275,7 @@ const Profile = () => {
 
                             </Card>
 
-                            <Card className='bg-black border border-slate-700 text-white'>
+                            <Card className='bg-white border border-slate-700 text-black'>
                                 <CardHeader>
                                     <CardTitle><h2>Work info</h2></CardTitle>
                                 </CardHeader>
@@ -278,7 +286,8 @@ const Profile = () => {
                                             id="years_of_exp"
                                             placeholder="how many years of experience"
                                             type='number'
-                                            className="bg-black text-white focus:bg-black border border-slate-700 focus-visible:border-slate-800 focus-visible:ring-2 focus-visible:ring-slate-700/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                                            className={inputClassName}
+                                            style={{ backgroundColor: '#fff', color: '#000' }}
                                             {...form.register("years_of_exp")}
                                         />
 
@@ -290,14 +299,14 @@ const Profile = () => {
                                         render={({ field }) => (
                                             <Field>
                                                 <FieldLabel>Skills</FieldLabel>
-
+                                            
                                                 <TagsInput
                                                     value={field.value}
-                                                    enterKeyHint="done"
                                                     onValueChange={field.onChange}
                                                     placeholder="Add skills…"
                                                     maxItems={10}
-                                                    className="bg-black text-white focus:bg-black border border-slate-700 focus-visible:border-slate-800 focus-visible:ring-2 focus-visible:ring-slate-700/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                                                    className={inputClassName}
+                                                    enterKeyHint="done"
                                                 />
 
                                                 <FieldError>
@@ -312,7 +321,8 @@ const Profile = () => {
                                         <Textarea
                                             id="work_exp"
                                             placeholder="write briefly about your work experience"
-                                            className="bg-black text-white focus:bg-black border border-slate-700 focus-visible:border-slate-800 focus-visible:ring-2 focus-visible:ring-slate-700/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                                            className={inputClassName}
+                                            style={{ backgroundColor: '#fff', color: '#000' }}
                                             {...form.register("work_exp")}
                                         />
 
@@ -323,7 +333,8 @@ const Profile = () => {
                                         <Textarea
                                             id="bio"
                                             placeholder="write briefly about your professional identity and core skills"
-                                            className="bg-black text-white focus:bg-black border border-slate-700 focus-visible:border-slate-800 focus-visible:ring-2 focus-visible:ring-slate-700/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                                            className={inputClassName}
+                                            style={{ backgroundColor: '#fff', color: '#000' }}
                                             {...form.register("bio")}
                                         />
 
@@ -333,7 +344,14 @@ const Profile = () => {
                                 </CardContent>
 
                             </Card>
-                            <Button variant='outline' className='cursor-pointer border-2 border-white bg-black' type="submit">{isLoading? (<img src="/loader.gif" width={30} />):(<p>Update Profile</p>)}</Button>
+                            <Button 
+                                variant='outline' 
+                                className='cursor-pointer border-2 border-white bg-black text-white hover:bg-white hover:text-black transition-colors [-webkit-appearance:none]' 
+                                style={{ backgroundColor: '#000', color: '#fff' }}
+                                type="submit"
+                            >
+                                {isLoading? (<img src="/loader.gif" width={30} alt="loading" />):(<p>Update Profile</p>)}
+                            </Button>
                         </form>
                     </Form>
 
